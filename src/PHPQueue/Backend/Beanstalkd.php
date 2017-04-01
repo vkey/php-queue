@@ -93,7 +93,7 @@ class Beanstalkd
     }
 
     /**
-     * @param null $jobId
+     * @param null|integer $jobId
      * @return bool
      * @throws JobNotFoundException
      */
@@ -110,7 +110,7 @@ class Beanstalkd
     }
 
     /**
-     * @param null $jobId
+     * @param null|integer $jobId
      * @return bool
      * @throws JobNotFoundException
      */
