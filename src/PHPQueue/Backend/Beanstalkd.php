@@ -24,15 +24,22 @@ class Beanstalkd
         }
     }
 
+    /**
+     *
+     */
     public function connect()
     {
         $this->connection = new \Pheanstalk\Pheanstalk($this->server_uri);
     }
 
+
     /**
-     * @deprecated
-     * @param  array   $data
-     * @return boolean Status of saving
+     * @param array $data
+     * @param int $DEFAULT_PRIORITY
+     * @param int $DEFAULT_DELAY
+     * @param int $DEFAULT_TTR
+     * @return bool
+     * @throws BackendException
      */
     public function add($data=array(), $DEFAULT_PRIORITY=1024, $DEFAULT_DELAY=0, $DEFAULT_TTR=60)
     {
@@ -40,9 +47,14 @@ class Beanstalkd
         return true;
     }
 
+
     /**
-     * @param array $data
-     * @return integer Primary ID of the new record.
+     * @param mixed $data
+     * @param int $DEFAULT_PRIORITY
+     * @param int $DEFAULT_DELAY
+     * @param int $DEFAULT_TTR
+     * @return mixed
+     * @throws BackendException
      */
     public function push($data, $DEFAULT_PRIORITY=1024, $DEFAULT_DELAY=0, $DEFAULT_TTR=60)
     {
@@ -80,6 +92,11 @@ class Beanstalkd
         return json_decode($newJob->getData(), true);
     }
 
+    /**
+     * @param null $jobId
+     * @return bool
+     * @throws JobNotFoundException
+     */
     public function clear($jobId=null)
     {
         $this->beforeClear($jobId);
@@ -92,6 +109,11 @@ class Beanstalkd
         return true;
     }
 
+    /**
+     * @param null $jobId
+     * @return bool
+     * @throws JobNotFoundException
+     */
     public function release($jobId=null)
     {
         $this->beforeRelease($jobId);
